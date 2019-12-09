@@ -24,7 +24,6 @@ const teamsReducer = (state, action) => {
 
 // selectors
 const pickedTeams = state => {
-  console.log("sateat", state);
   return state.teams.filter(t => t.picked);
 };
 const unpickedTeams = state => {
@@ -58,8 +57,9 @@ const TeamsContextProvider = props => {
   const [state, dispatch] = useReducer(teamsReducer, {
     teams: GroupedTeams.group1
   });
-  const value = React.useMemo(() => [state, dispatch], [state]);
-  return <TeamsContext.Provider value={value} {...props} />;
+  // const value = React.useMemo(() => [state, dispatch], [state]);
+  // return <TeamsContext.Provider value={value} {...props} />;
+  return <TeamsContext.Provider value={[state, dispatch]} {...props} />;
 };
 
 const App = () => {
@@ -71,14 +71,11 @@ const App = () => {
 };
 
 const TeamsPage = () => {
-  const { state, pickedTeams, unpickedTeams, toggleTeam } = useTeams();
-  console.log(state);
+  const { pickedTeams, unpickedTeams, toggleTeam } = useTeams();
   return (
     <div className="w-full min-h-screen bg-gray-200 flex">
       <div className="container mx-auto my-5 bg-white rounded-lg border">
-        <p className="text-center text-4xl">Super Sports App</p>
-        <p className="text-center text-lg">pick your favorite Teams</p>
-
+        <HeaderComponent />
         <div className="flex">
           <div className="bg-blue-200 w-1/2 m-5 rounded p-4">
             {unpickedTeams.map((team, i) => (
@@ -96,6 +93,17 @@ const TeamsPage = () => {
     </div>
   );
 };
+
+const HeaderComponent = React.memo(() => {
+  const renders = useRenders();
+  return (
+    <>
+      <p className="text-center text-4xl">Super Sports App</p>
+      <p className="text-center text-lg">pick your favorite Teams</p>
+      <p className="text-center text-lg">renders: {renders}</p>
+    </>
+  );
+});
 
 const Team = React.memo(({ team, action }) => {
   const renders = useRenders();
