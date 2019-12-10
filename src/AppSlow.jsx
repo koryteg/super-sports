@@ -5,7 +5,6 @@ import React, {
   useCallback
 } from "react";
 import { Teams } from "./data/teams";
-// import { GroupedTeams } from "./data/teams";
 import { useRenders } from "./utils/use_renders";
 
 const teamsReducer = (state, action) => {
@@ -35,14 +34,9 @@ const TeamsContext = createContext(null);
 const useTeams = () => {
   const [state, dispatch] = useContext(TeamsContext);
 
-  const toggleTeam = useCallback(
-    teamName => {
-      dispatch({ type: "TOGGLE_TEAM", teamName });
-    },
-    [dispatch]
-  );
-  // const pickedTeams = state.teams.filter(t => t.picked);
-  // const unpickedTeams = state.teams.filter(t => !t.picked);
+  const toggleTeam = teamName => {
+    dispatch({ type: "TOGGLE_TEAM", teamName });
+  };
 
   return {
     state,
@@ -58,11 +52,11 @@ const TeamsContextProvider = props => {
     teams: Teams
   });
   const value = React.useMemo(() => [state, dispatch], [state]);
-  return <TeamsContext.Provider value={value} {...props} />;
-  // return <TeamsContext.Provider value={[state, dispatch]} {...props} />;
+  // return <TeamsContext.Provider value={value} {...props} />;
+  return <TeamsContext.Provider value={[state, dispatch]} {...props} />;
 };
 
-const App = () => {
+const AppSlow = () => {
   return (
     <TeamsContextProvider>
       <TeamsPage />
@@ -73,28 +67,33 @@ const App = () => {
 const TeamsPage = () => {
   const { pickedTeams, unpickedTeams, toggleTeam } = useTeams();
   return (
+    <ContainerComponent>
+      <div className="bg-blue-200 w-1/2 m-5 rounded p-4">
+        {unpickedTeams.map(team => (
+          <Team key={team.name} action={toggleTeam} team={team} />
+        ))}
+      </div>
+      <div className="bg-green-200 w-1/2 m-5 rounded p-4">
+        {pickedTeams.map(team => (
+          <Team key={team.name} action={toggleTeam} team={team} />
+        ))}
+      </div>
+    </ContainerComponent>
+  );
+};
+
+const ContainerComponent = ({ children }) => {
+  return (
     <div className="w-full min-h-screen bg-gray-200 flex">
       <div className="container mx-auto my-5 bg-white rounded-lg border">
         <HeaderComponent />
-        <div className="flex">
-          <div className="bg-blue-200 w-1/2 m-5 rounded p-4">
-            {unpickedTeams.map((team, i) => (
-              <Team key={team.name} action={toggleTeam} team={team} />
-            ))}
-          </div>
-
-          <div className="bg-green-200 w-1/2 m-5 rounded p-4">
-            {pickedTeams.map((team, i) => (
-              <Team key={team.name} action={toggleTeam} team={team} />
-            ))}
-          </div>
-        </div>
+        <div className="flex">{children}</div>
       </div>
     </div>
   );
 };
 
-const HeaderComponent = React.memo(() => {
+const HeaderComponent = () => {
   const renders = useRenders();
   return (
     <>
@@ -103,9 +102,9 @@ const HeaderComponent = React.memo(() => {
       <p className="text-center text-lg">renders: {renders}</p>
     </>
   );
-});
+};
 
-const Team = React.memo(({ team, action }) => {
+const Team = ({ team, action }) => {
   const renders = useRenders();
   return (
     <>
@@ -117,7 +116,7 @@ const Team = React.memo(({ team, action }) => {
       </div>
     </>
   );
-});
+};
 
 // const App = () => {
 //   const [teams, setTeams] = useState(GroupedTeams);
@@ -181,4 +180,4 @@ const Team = React.memo(({ team, action }) => {
 //   );
 // };
 
-export default App;
+export default AppSlow;

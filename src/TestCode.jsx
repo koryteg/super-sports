@@ -66,6 +66,15 @@ const App = () => {
 
 
 
+const teamsList = useMemo(
+  () =>
+    teams.map(w => ({
+      ...w,
+      totalPrice: someComplexFunction(w.price),
+      estimatedDeliveryDate: someOtherComplexFunction(w.warehouseAddress)
+    })),
+  [widgets]
+);
 
 
 const Parent = () => {
