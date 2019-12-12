@@ -5,7 +5,6 @@ import React, {
   useCallback
 } from "react";
 import { Teams } from "./data/teams";
-// import { GroupedTeams } from "./data/teams";
 import { useRenders } from "./utils/use_renders";
 
 const teamsReducer = (state, action) => {
@@ -23,12 +22,12 @@ const teamsReducer = (state, action) => {
 };
 
 // selectors
-const pickedTeams = state => {
-  return state.teams.filter(t => t.picked);
-};
-const unpickedTeams = state => {
-  return state.teams.filter(t => !t.picked);
-};
+// const pickedTeams = state => {
+//   return state.teams.filter(t => t.picked);
+// };
+// const unpickedTeams = state => {
+//   return state.teams.filter(t => !t.picked);
+// };
 
 const TeamsContext = createContext(null);
 
@@ -41,15 +40,13 @@ const useTeams = () => {
     },
     [dispatch]
   );
-  // const pickedTeams = state.teams.filter(t => t.picked);
-  // const unpickedTeams = state.teams.filter(t => !t.picked);
 
   return {
     state,
     dispatch,
     toggleTeam,
-    pickedTeams: pickedTeams(state),
-    unpickedTeams: unpickedTeams(state)
+    pickedTeams: state.teams.filter(t => t.picked),
+    unpickedTeams: state.teams.filter(t => !t.picked)
   };
 };
 
@@ -59,7 +56,6 @@ const TeamsContextProvider = props => {
   });
   const value = React.useMemo(() => [state, dispatch], [state]);
   return <TeamsContext.Provider value={value} {...props} />;
-  // return <TeamsContext.Provider value={[state, dispatch]} {...props} />;
 };
 
 const App = () => {
@@ -79,13 +75,13 @@ const TeamsPage = () => {
         <div className="flex">
           <div className="bg-blue-200 w-1/2 m-5 rounded p-4">
             {unpickedTeams.map((team, i) => (
-              <Team key={team.name} action={toggleTeam} team={team} />
+              <Team key={i} action={toggleTeam} team={team} />
             ))}
           </div>
 
           <div className="bg-green-200 w-1/2 m-5 rounded p-4">
             {pickedTeams.map((team, i) => (
-              <Team key={team.name} action={toggleTeam} team={team} />
+              <Team key={i} action={toggleTeam} team={team} />
             ))}
           </div>
         </div>
@@ -94,7 +90,7 @@ const TeamsPage = () => {
   );
 };
 
-const HeaderComponent = React.memo(() => {
+const HeaderComponent = () => {
   const renders = useRenders();
   return (
     <>
@@ -103,7 +99,7 @@ const HeaderComponent = React.memo(() => {
       <p className="text-center text-lg">renders: {renders}</p>
     </>
   );
-});
+};
 
 const Team = React.memo(({ team, action }) => {
   const renders = useRenders();

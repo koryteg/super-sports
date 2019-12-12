@@ -21,14 +21,6 @@ const teamsReducer = (state, action) => {
   }
 };
 
-// selectors
-const pickedTeams = state => {
-  return state.teams.filter(t => t.picked);
-};
-const unpickedTeams = state => {
-  return state.teams.filter(t => !t.picked);
-};
-
 const TeamsContext = createContext(null);
 
 const useTeams = () => {
@@ -42,8 +34,8 @@ const useTeams = () => {
     state,
     dispatch,
     toggleTeam,
-    pickedTeams: pickedTeams(state),
-    unpickedTeams: unpickedTeams(state)
+    pickedTeams: state.teams.filter(t => t.picked),
+    unpickedTeams: state.teams.filter(t => !t.picked)
   };
 };
 
@@ -51,8 +43,6 @@ const TeamsContextProvider = props => {
   const [state, dispatch] = useReducer(teamsReducer, {
     teams: Teams
   });
-  const value = React.useMemo(() => [state, dispatch], [state]);
-  // return <TeamsContext.Provider value={value} {...props} />;
   return <TeamsContext.Provider value={[state, dispatch]} {...props} />;
 };
 
