@@ -44,7 +44,7 @@ export const Teams = [
   {
     city: "Chicago",
     name: "Bears",
-    abr: "CIN",
+    abr: "CHI",
     conf: "NFC",
     div: "North"
   },
@@ -175,9 +175,9 @@ export const Teams = [
     div: "North"
   },
   {
-    city: "San Diego",
+    city: "Los Angeles",
     name: "Chargers",
-    abr: "SD",
+    abr: "LAC",
     conf: "AFC",
     div: "West"
   },
@@ -196,9 +196,9 @@ export const Teams = [
     div: "West"
   },
   {
-    city: "St. Louis",
+    city: "Los Angeles",
     name: "Rams",
-    abr: "STL",
+    abr: "LAR",
     conf: "NFC",
     div: "West"
   },
@@ -273,7 +273,7 @@ const group2 = [
   {
     city: "Chicago",
     name: "Bears",
-    abr: "CIN",
+    abr: "CHI",
     conf: "NFC",
     div: "North"
   },
@@ -406,9 +406,9 @@ const group3 = [
     div: "North"
   },
   {
-    city: "San Diego",
+    city: "Los Angeles",
     name: "Chargers",
-    abr: "SD",
+    abr: "LAC",
     conf: "AFC",
     div: "West"
   }
@@ -429,9 +429,9 @@ const group4 = [
     div: "West"
   },
   {
-    city: "St. Louis",
+    city: "Los Angeles",
     name: "Rams",
-    abr: "STL",
+    abr: "LAR",
     conf: "NFC",
     div: "West"
   },

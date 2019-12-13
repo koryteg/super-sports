@@ -21,31 +21,11 @@ const CurrentUserProvider = props => {
   return <AppContext.Provider value={[state, dispatch]} {...props} />;
 };
 
-// const useCurrentUser = () => {
-//   const [state, dispatch] = React.useContext(AppContext);
-
-//   const updateAvatar = async avatar => {
-//     let user = await updateUser({ userId: state.id, avatar });
-//     dispatch({ type: "UPDATE_AVATAR", avatar: user.avatar });
-//   };
-//   return {state, dispatch, updateAvatar}
-// };
-
 const App = () => {
   return (
     <CurrentUserProvider>
       <UserProfilePage />
     </CurrentUserProvider>
-  );
-};
-
-const UserProfilePage = () => {
-  const [user, dispatch] = React.useContext(AppContext);
-  return (
-    <>
-      <UserProfileInfo userName={user.name} userEmail={user.email} />
-      <UserProfileBody user={user} />
-    </>
   );
 };
 
